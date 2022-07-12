@@ -148,23 +148,42 @@ int print_o(va_list args)
 }
 
 /**
- * print_u - prints an unsigned int.
- * @args: argument
- * Return: 0
+ * print_u - function that prints unsigned number
+ * @args: unsigned number
+ * Descriptions: prints unsigned number with putchar
+ * Return: size the output
  */
-
 int print_u(va_list args)
 {
-	int divisor = 1, i, resp;
-	unsigned int n = va_arg(args, unsigned int);
+	unsigned int len, powten, j, digit, n, num;
+	int count = 0;
 
-	for (i = 0; n / divisor > 9; i++, divisor *= 10)
-		;
-
-	for (; divisor >= 1; n %= divisor, divisor /= 10)
+	n = va_arg(args, unsigned int);
+	if (n != 0)
 	{
-		resp = n / divisor;
-		_putchar('0' + resp);
+		num = n;
+		len = 0;
+		while (num != 0)
+		{
+			num /= 10;
+			len++;
+		}
+		powten = 1;
+		for (j = 1; j <= len - 1; j++)
+			powten *= 10;
+		for (j = 1; j <= len; j++)
+		{
+			digit = n / powten;
+			_putchar(digit + '0');
+			count++;
+			n -= digit * powten;
+			powten /= 10;
+		}
 	}
-	return (i + 1);
+	else
+	{
+		_putchar('0');
+		return (1);
+	}
+	return (count);
 }
